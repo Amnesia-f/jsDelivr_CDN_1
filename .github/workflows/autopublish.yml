@@ -1,18 +1,18 @@
 name: Node.js Package
-# 监测图床分支，2020年10月后github新建仓库默认分支改为main，记得更改
+
 on:
   push:
     branches:
-      - master
+      - main  # 👈 确保这里改成了 main
 
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4  # 升级到 v4
+      - uses: actions/setup-node@v4 # 升级到 v4
         with:
-          node-version: "12.x"
+          node-version: "18.x"     # 推荐使用较新的 LTS 版本 Node
           registry-url: https://registry.npmjs.org/
       - run: npm publish
         env:
