@@ -5,7 +5,7 @@ on:
     branches:
       - main
 
-# 必须添加以下权限，以便与 npm 进行 OIDC 认证
+# 1. 必须声明此权限，允许向 npm 申请 OIDC 临时证书
 permissions:
   contents: read
   id-token: write
@@ -15,10 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
-          registry-url: https://registry.npmjs.org/
-      
-      # 此时直接运行 publish，npm 会自动识别 GitHub 提供的身份凭证，无需传入 Token 或 OTP
+          node-version: "20.x"
+          # 2. 注意：这里去掉了 registry-url
+          
+      # 3. 运行发布，去掉了 env: NODE_AUTH_TOKEN
+      # --provenance 参数是 npm 官方推荐的，用于生成安全构建来源证明
       - run: npm publish --provenance
