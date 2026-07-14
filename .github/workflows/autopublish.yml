@@ -19,8 +19,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20.x"
-          # 2. 注意：这里去掉了 registry-url
+          # 2. 必须保留此行！它告诉 setup-node 将 npm 配置指向官方源，从而激活 OIDC 认证机制
+          registry-url: "https://registry.npmjs.org/"
           
-      # 3. 运行发布，去掉了 env: NODE_AUTH_TOKEN
-      # --provenance 参数是 npm 官方推荐的，用于生成安全构建来源证明
+      # 3. 运行发布。千万不要配置 env: NODE_AUTH_TOKEN
+      # --provenance 参数是可选的，用于生成构建来源证明
       - run: npm publish --provenance
